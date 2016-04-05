@@ -1,0 +1,6 @@
+/test
+/src/generator
+
+.babelrc
+
+gulpfile.babel.js
