@@ -1,5 +1,4 @@
 const argv       = require('yargs').argv
-const watchify   = require('watchify')
 const browserify = require('browserify')
 const source     = require('vinyl-source-stream')
 
@@ -15,10 +14,9 @@ const sequence   = require('gulp-sequence')
 const livereload = require('gulp-livereload')
 
 let isBuild      = argv._[0] === 'build'
-let isWatching   = argv._[0] === 'serve'
 
 // Global method
-let logError     = (err) => {
+function logError (err) {
   var stack = unescape(err.stack)
   delete err.stack
   if (err.stream != null) {
@@ -34,46 +32,31 @@ let logError     = (err) => {
 
 /* ==== Tasks ==== */
 gulp.task('clean', () =>
-  gulp.src([
-      'browser',
-      'es5'
-    ], {read: false})
-      .pipe(rimraf({
-        force: true
-      }))
+  gulp.src(['browser', 'es5', 'gh-pages'], {read: false})
+    .pipe(rimraf({
+      force: true
+    }))
 )
 
 gulp.task('scripts', () =>
-  gulp.src('src/scripts/**.js')
+  gulp.src('src/scripts/**/*.js')
     .pipe(babel())
+    .on('error', logError)
     .pipe(gulp.dest('es5'))
 )
 
-// Browserify setup
-var b = browserify({
-  entries: 'src/scripts/_browser.js',
-  cache: {},
-  packageCache: {},
-  debug: !isBuild
-})
-
-if (isWatching) {
-  b = watchify(b)
-  b.on('update', browserifyBundle)
-  b.on('log', gutil.log)
-  browserifyBundle()
-}
-
-let browserifyBundle = () =>
-  b.transform('babelify')
+gulp.task('script-browser', () =>
+    browserify({
+      entries: 'src/scripts/browser.js',
+      cache: {},
+      packageCache: {},
+      debug: !isBuild
+    })
+    .transform('babelify')
     .bundle()
     .on('error', logError)
     .pipe(source('moha.js'))
     .pipe(gulp.dest('browser'))
-    .pipe(livereload())
-
-gulp.task('script-browser', () =>
-  browserifyBundle()
 )
 
 gulp.task('script-browser-min', () =>
@@ -83,17 +66,25 @@ gulp.task('script-browser-min', () =>
     .pipe(gulp.dest('browser'))
 )
 
-gulp.task('generator-index', () => null )
-gulp.task('generator-style', () => null )
-gulp.task('generator-script', () => null )
+gulp.task('ghPages-index', () => null)
+gulp.task('ghPages-style', () => null)
+gulp.task('ghPages-script', () => null)
 
-// Serve
+// Watch & Serve
+gulp.task('watch', () => {
+  livereload.listen(23333)
+  gulp.watch('src/scripts/**/*.js', ['dev'])
+})
+
+gulp.task('serve', ['watch'], () => {
+
+})
 
 // Tasks sequence
-gulp.task('dev', sequence('clean', ['scripts', 'script-browser']))
+gulp.task('dev', (cb) => sequence('clean', ['scripts', 'script-browser'])(cb))
 
-gulp.task('generator', sequence(['generator-index', 'generator-style', 'generator-script']))
+gulp.task('ghPages', (cb) => sequence(['ghPages-index', 'ghPages-style', 'ghPages-script'])(cb))
 
-gulp.task('build', sequence('dev', 'generator','script-browser-min'))
+gulp.task('build', (cb) => sequence('dev', 'ghPages','script-browser-min')(cb))
 
 gulp.task('default', ['build'])

@@ -1,6 +1,6 @@
-import lifeExp from './life-exp'
-import bigNews from './big-news'
-import elder from './elder'
+import lifeExp from './things/life-exp'
+import bigNews from './things/big-news'
+import elder from './things/elder'
 
 export default {
   lifeExp,
