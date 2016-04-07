@@ -3,6 +3,11 @@
 
 家事国事天下事，三件小事
 
+## Installtion
+```
+npm i moha --save
+```
+
 ## Features & Usage
 
 #### 1. Improving Life Experiences (Converter)
