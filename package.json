@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IFELog/IFELog-Moha.git"
+    "url": "git+https://github.com/IFELog/MoHa.git"
   },
   "dependencies": {
     "pangu": "^3.0.0"

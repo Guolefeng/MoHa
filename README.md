@@ -1,7 +1,11 @@
-# Moha [WIP]
-风声雨声读书声，谈笑风生
+## MoHa: First mo and then hahhhhhhhhhh [WIP]
 
-家事国事天下事，三件小事
+<img src="https://cloud.githubusercontent.com/assets/7693264/14355783/d45a1ea0-fd14-11e5-8b49-0e4a3866dce7.png" width="400">
+
+> `风声雨声读书声，谈笑风生`  
+> `The sound of Wind, Rain and Reading, just talk and laugh`  
+> `家事国事天下事，三件小事`  
+> `The affairs of Family, Country and World, just 3 little things`
 
 ## Installtion
 ```
@@ -10,22 +14,24 @@ npm i moha --save
 
 ## Features & Usage
 
-#### 1. Improving Life Experiences (Converter)
+### 1. Improving Life Experiences (Converter)
 ``` javascript
 import {lifeExp} from 'moha'
 
-let talks = '我是最好的'
+let talks = '我是最好的。Great!'
 let exps = lifeExp(talks)
 
-console.log(exps) // Echo: 我是坠吼滴
+console.log(exps) // Echo: 我是坠吼滴。Excited!
 ```
-#### 2. Making Big News with HK Journalists (Page Translator)
+> Here is the [Exps Dict](https://github.com/IFELog/MoHa/blob/master/src/scripts/stores/exps-dict.js) which would make you say `Wow, MoHa is excited!`.
+
+### 2. Making Big News with HK Journalists (Page Translator)
 ``` javascript
 import {bigNews} from 'moha'
 
 bigNews() // Current page will be halangify
 ```
-#### 3. Talking with the Elder (Generator)
+### 3. Talking with the Elder (Generator)
 - Todo: Imitate the elder and create an elder (Generator).
 
 ## How to Contribute?
